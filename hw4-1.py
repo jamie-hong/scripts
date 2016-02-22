@@ -16,11 +16,17 @@ def thomas(M,y):
     '''Thomas algorithm to solve tridiagonal matrix'''
     length = len(M)
     b = np.diag(M)
-    a = np.diag(M[1:,0:-1])
-    a = np.insert(a,0,0)
-    c = np.diag(M[0:-1,1:])
-    c = np.append(c,0)
+    a = np.diag(M[1:,:-1])
+    c = np.diag(M[:-1,1:])
     
+    N = M - np.diag(b) # checker matrix 
+    N[1:,:-1] = N[1:,:-1] - np.diag(a)
+    N[:-1,1:] = N[:-1,1:] - np.diag(c)
+    if M.shape[0] != M.shape[1] or not np.all(N==0):
+        raise ValueError('matrix is not tridiagonal')
+    
+    a = np.insert(a,0,0)
+    c = np.append(c,0) 
     x = np.zeros(length)
     cp = np.zeros(length)
     yp = np.zeros(length)
