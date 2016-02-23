@@ -226,3 +226,15 @@ tsit1, e1 = inst.iterboot(bm_swaps, f2pv, x0, lbds[1], mixf=.5, bds=[-3.,3.])
 plotboot(tsit1, lbds[1], axes[1], chartf) 
 
 plt.show()
+
+lbds=np.arange(0,20,0.1)
+
+es = []
+for lbd in lbds:
+    _, e = inst.iterboot(bm_swaps, y2pv, lbd=lbd, x0=0, its=1 , bds=[-1., 3.])
+    es.append(e)
+
+plt.figure(figsize=[7,5])
+plt.plot(lbds, [np.linalg.norm(es[i],2) for i in range(200)])
+plt.title('Figure 2.11: Norms of Pricing Errors - inst.iterboot', fontsize=14)
+plt.show()
