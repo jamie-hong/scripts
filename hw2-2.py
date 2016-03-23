@@ -24,6 +24,9 @@ def my_cholesky(A):
 A = np.mat(np.random.randn(3,3))
 A = A*A.T
 
+# this will not work
+# A = np.mat([[3,1,2],[1,3,2],[2,2,3]])
+
 Ans1 = my_cholesky(A)
 Ans2 = np.linalg.cholesky(A)
 
