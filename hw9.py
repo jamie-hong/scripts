@@ -126,9 +126,9 @@ def simCDO_IS(cdo, rho, disc, paths, u, b):
             
     return np.mean(means,0), np.std(means,0)
 
-b = 20 # number of batches
+b = 30 # number of batches
 pv_2, err_2 = simCDO_IS(cdo, rho, discf, npath, -1, b)
-vrf_2 = err_0**2/(err_2**2) # variance reduction factor
+vrf_2 = err_0**2/(err_2**2) # variance reduction factor, err_2 is truly the std of the SAMPLE MEAN, comparable to err_0 = sigma/sqrt(n)
 df2 = pd.DataFrame(np.array([cdo.a, cdo.d, pv_2, err_2, vrf_2]), index=['Attach', 'Detach', 'PV', 'MC err', 'VRF'])
 
 fmt.displayDFs(df2, headers=['Importance Sampling'], fmt='4g')
