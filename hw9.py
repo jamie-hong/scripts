@@ -100,7 +100,7 @@ def simCDO_antithetic(cdo, rho, disc, paths, zs):
 
 
 pv_1, err_1 = simCDO_antithetic(cdo, rho, discf, npath/2, zs)
-vrf_1 = err_0**2*npath/(err_1**2*npath/2) # variance reduction factor
+vrf_1 = err_0**2/(err_1**2) # variance reduction factor
 df1 = pd.DataFrame(np.array([cdo.a, cdo.d, pv_1, err_1, vrf_1]), index=['Attach', 'Detach', 'PV', 'MC err', 'VRF'])
 
 fmt.displayDFs(df1, headers=['Antithetic'], fmt='4g')
@@ -112,7 +112,7 @@ def simCDO_IS(cdo, rho, disc, paths, u, b):
     for i in range(b):
         zs_q = np.random.normal(size=paths)
         zs_p = zs_q + u # P sample
-        m = np.exp(-u*zs_p + 0.5*u*u) # R-N derivative
+        m = np.exp(-u*zs_p + 0.5*u**2) # R-N derivative
         qs = 1./paths*np.ones(paths) # Q weights
         ps = m*qs # P weights
         ps = ps/np.sum(ps) # normalization
