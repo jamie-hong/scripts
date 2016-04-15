@@ -3,6 +3,7 @@ from matplotlib.pyplot import *
 import me
 from scipy.optimize import minimize
 from scipy.stats import norm, lognorm
+
 matplotlib.rcParams.update({'font.size': 14})
 
 # 1 and 2
@@ -24,7 +25,15 @@ xlabel('$x$')
 title('$\mathbb{E}[x] = 0, \; \mathbb{E}[x^2] = 1,  \; x \in (-6, 6) $');
 
 subplot(1, 2, 2)
+cdf_x = np.cumsum(dual.dist(res.x))
+cdf_n = norm.cdf(x)
+plot(cdf_x, cdf_n,'o')
+xlim(0,1)
+xlabel('$F_X(x)$')
+ylabel('$F_{norm}(x)$')
+title('Q-Q plot of the ME distribution vs standard normal', fontsize=13)
 
+figure(figsize=[7, 5])
 x = np.arange(-1.5, 1.5, dx)
 a = np.array([x, x*x]) # first and second moments (pricing equation)
 q = np.ones(np.size(x))/len(x) # prior belief (if uniform: cross entropy = regular entropy)
@@ -58,13 +67,13 @@ cdf_logn = lognorm.cdf(y,1)
 plot(cdf_y, cdf_logn,'o')
 xlabel('$F_Y(y)$')
 ylabel('$F_{lognorm}(y)$')
+title('Q-Q plot of ME distribution vs lognormal',fontsize=13)
 
 subplot(1, 3, 3)
 plot(np.log(y), dual.dist(res.x)*y/dy)
 xlim(-6, 6)
 xlabel('$\log(y)$')
 title('$\mathbb{E}[\log{(y)}] = 0, \; \mathbb{E}[\log^2{(y)}] = 1,  \; y \in (0, 100) $');
-
 
 # 5
 qn = norm.pdf(np.log(y))
