@@ -66,10 +66,8 @@ class BS_FDM_cn:
             # Add in the two other boundary conditions
             xdl = 1+self.xs
             xdu = self.n+self.xs
-            self.v[0] += self.Fl[i] * 0.25*self.dt*(+(self.sigma*xdl)**2 - self.r*xdl)
-            self.v[self.n-1] += self.Fu[i] * 0.25*self.dt*(+(self.sigma*xdu)**2 + self.r*xdu)
-            self.v[0] -= self.Fl[i+1] * 0.25*self.dt*(-(self.sigma*xdl)**2 + self.r*xdl)
-            self.v[self.n-1] -= self.Fu[i+1] * 0.25*self.dt*(-(self.sigma*xdu)**2 - self.r*xdu)
+            self.v[0] += (self.Fl[i] + self.Fl[i+1] ) * 0.25*self.dt*((self.sigma*xdl)**2 - self.r*xdl)
+            self.v[self.n-1] += (self.Fu[i] + self.Fu[i+1]) * 0.25*self.dt*((self.sigma*xdu)**2 + self.r*xdu)
             
             # implicit part of time step
             self.u[i+1,:] = self.C.solve(self.v)
